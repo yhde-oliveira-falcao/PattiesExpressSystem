@@ -10,9 +10,12 @@
   "author": "Yuri Henrique de Oliveira Falcao",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
+    "client-sessions": "^0.8.0",
     "express": "^4.17.1",
     "express-handlebars": "^5.2.0",
-    "mongoose": "^5.11.8"
+    "mongoose": "^5.11.8",
+    "querystring": "^0.2.0"
   }
 }
