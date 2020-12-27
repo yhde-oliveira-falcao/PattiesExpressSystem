@@ -1,0 +1,15 @@
+{
+  "name": "baby1",
+  "version": "1.0.0",
+  "description": "This website is intended to store reports and display them, also exporting the reports in a friendly format for downloading.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Yuri Henrique de Oliveira Falcao",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
