@@ -13,7 +13,6 @@ const config = require("./js/config");
 
 
 
-
 //CONFIGURATION
 app.engine('.hbs', ehbs({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
@@ -54,10 +53,51 @@ function ensureAdmin(req, res, next) {
 
 
 // setup a 'route' to listen on the default url path
-app.get("/", (req, res) => {
-    res.send("<h1> Hello World! </h1>");
+app.get("/", function(req,res){
+  res.render('home',{user: req.session.user, layout: false});
 });
 
+app.get("/login", (req,res)=>{
+  res.render("login", {layout: false});
+});
+
+app.post("/login", (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  if (username === "" || password === "") {
+      return res.render("login", {errorMsg: "Missing Credentials.", layout: false});
+  }
+  UserModel.findOne({username: username})
+      .exec()
+      .then((usr) => {
+          if (!usr) {
+              res.render("login", {errorMsg: "login does not exist!", layout: false});
+          } else {
+              // user exists
+              if (username === usr.username && password === usr.password){
+                  req.session.user = {
+                      username: usr.username,
+                      email: usr.email,
+                      firstName: usr.firstName,
+                      lastName: usr.lastName,
+                      isAdmin: usr.isAdmin
+                  };
+                  res.redirect("/dashboard");
+              } else {
+                  res.render("login", {errorMsg: "login and password does not match!", layout: false});
+              };
+          };
+      })
+      .catch((err) => { console.log("An error occurred: ${err}")});
+});
+app.get("/logout", (req,res)=> {
+  req.session.reset();
+  res.render("login", {errorMsg: "invalid username or password!", layout: false});
+});
+
+app.get("/dashboard", ensureLogin, (req,res) => {
+  res.render("dashboard", {user: req.session.user, layout: false});
+});
 
 
 
