@@ -212,20 +212,20 @@ app.get("/dashboard", ensureLogin, (req,res) => {
 
 app.get("/firstrunsetup", (req,res)=> {
     var Clint = new UserModel({
-        username: 'clint',
-        password: 'mypassword',
-        firstName: 'Clint',
-        lastName: 'MacDonald',
-        email: 'clint.macdonald@senecacollege.ca',
+        username: 'yuri',
+        password: 'password',
+        firstName: 'Yuri',
+        lastName: 'Falcao',
+        email: 'yhofalcao@gmail.com',
         isAdmin: true
     });
     console.log("got here!");
     Clint.save((err)=> {
         console.log("Error: " + err + ';');
         if (err) {
-            console.log("There was an error creating Clint: " + err);
+            console.log("There was an error creating Yuri: " + err);
         } else {
-            console.log("Clint was created");
+            console.log("Yuri was created");
         }
     });
     console.log("got here 2!");
