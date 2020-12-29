@@ -137,5 +137,27 @@ app.post("/Profile/Edit", ensureLogin, (req,res) => {
 });
 
 
+app.get("/firstrunsetup", (req,res)=> {
+  var Clint = new UserModel({
+      username: 'yuri',
+      password: 'password',
+      firstName: 'yuri',
+      lastName: 'falcao',
+      email: 'yhofalcao@gmail.com',
+      isAdmin: true
+  });
+  console.log("created");
+  Clint.save((err)=> {
+      console.log("Error: " + err + ';');
+      if (err) {
+          console.log(" error " + err);
+      } else {
+          console.log("created");
+      }
+  });
+  console.log("created");
+  res.redirect("/");
+})
+
 // setup http server to listen on HTTP_PORT
 app.listen(HTTP_PORT);
