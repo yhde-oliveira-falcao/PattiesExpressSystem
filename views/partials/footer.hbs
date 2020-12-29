@@ -1,0 +1,12 @@
+        <footer>
+            <hr/>
+            <p>
+                <a href="/">Home</a>
+                {{#if username}}
+                    |  <a href="/dashboard">Dashboard</a>
+                    |  <a href="/logout">logout</a>
+                {{else}}
+                    |  <a href="/login">login</a>
+                {{/if}}
+            </p>    
+        </footer>
