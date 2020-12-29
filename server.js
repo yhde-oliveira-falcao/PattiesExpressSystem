@@ -99,7 +99,40 @@ app.get("/dashboard", ensureLogin, (req,res) => {
   res.render("dashboard", {user: req.session.user, layout: false});
 });
 
+app.get("/Profile", ensureLogin, (req,res)=>{
+  res.render("Profile", {user: req.session.user, layout: false});
+});
 
+app.get("/Profile/Edit", ensureLogin, (req,res)=>{
+   res.render("ProfileEdit", {user: req.session.user, layout: false});
+});
+
+app.post("/Profile/Edit", ensureLogin, (req,res) => {
+   const username = req.body.username;
+   const firstName = req.body.firstname;
+   const lastName = req.body.lastname;
+   const Email = req.body.email;
+   const isAdmin = (req.body.isAdmin === "on");
+   UserModel.updateOne(
+       { username: username },
+       {$set: {
+           firstName: firstName,
+           lastName: lastName,
+           email: Email,
+           isAdmin: true
+       }}
+   ).exec()
+   .then(()=>{
+       req.session.user = {
+           username: username,
+           email: Email,
+           firstName: firstName,
+           lastName: lastName,
+           isAdmin: isAdmin
+       };
+       res.redirect("/Profile");
+   });
+});
 
 
 // setup http server to listen on HTTP_PORT

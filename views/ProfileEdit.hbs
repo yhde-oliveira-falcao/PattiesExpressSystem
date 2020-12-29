@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Profile Editor</title>
+          <link rel="stylesheet" href="/css/theme.css" />
+</head>
+
+<body>
+    {{> header user}}
+    <h1>Profile Editor</h1>
+    <form method="POST" action="/Profile/Edit">
+      <input type="hidden" name="username" value="{{user.username}}"/>
+      <label class="fixedlabel">User Name:</label>{{user.username}}<br/>
+      <label class="fixedlabel">First Name:</label><input type="text" name="firstname" value="{{user.firstName}}"/><br/>
+      <label class="fixedlabel">Last Name:</label><input type="text" name="lastname" value="{{user.lastName}}"/><br/>
+      <label class="fixedlabel">E-mail:</label><input type="text" name="email" value="{{user.email}}" size="50"/><br/>
+      {{#if user.isAdmin}}
+      <label class="fixedlabel">Is Administrator:</label><input type="checkbox" name="isAdmin" checked="{{user.isAdmin}}"/><br/>
+      {{/if}}
+      <label class="fixedlabel"></label><button type="submit" name="submit">Submit</button>
+    </form>
+    {{> footer user}}
+</body> 
+</html> 
