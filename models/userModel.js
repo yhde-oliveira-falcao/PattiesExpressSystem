@@ -17,7 +17,7 @@ const userSchema = new Schema({
     "email": {
         type: String,
         unique: true },
-    "isAdmin": FALSE
+    "isAdmin": Boolean
 });
 
 module.exports = mongoose.model("users", userSchema);
