@@ -164,7 +164,7 @@ app.get("/report/Delete/:reportID", ensureLogin, (req, res) => {
         .then(()=>{
             res.redirect("/report");
         });
-})00
+})
 
 
 
