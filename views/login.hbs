@@ -9,7 +9,11 @@
 <body>
 <h1>Login Page</h1>
    
+    {{#if errorMsg}}
+        <h5>{{errorMsg}}</h5>
+    {{else}}
         <h5>Please login below</h5>
+    {{/if}}
    
     <form method="post" action="/login">
         <label class="fixedlabel">Username</label><input name="username" type="text"><br/>

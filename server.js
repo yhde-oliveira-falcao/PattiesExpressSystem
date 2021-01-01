@@ -51,13 +51,13 @@ function ensureLogin(req, res, next) {
 /* #endregion */
 
 /* #region ROUTES */
-app.get("/", function(req,res){
+/*app.get("/", function(req,res){
     res.render('home',{user: req.session.user, layout: false});
-});
+});*/
 
     /* #region LOGIN LOGOUT */
-app.get("/login", (req,res)=>{
-        //req.session.destroy(null);
+    //=====================THE HOME PAGE IS THE LOGIN PAGE========================
+app.get("/", (req,res)=>{
         res.render("login", {layout: false});
     });
 
@@ -141,6 +141,34 @@ app.post("/Profile/Edit", ensureLogin, (req,res) => {
 app.get("/dashboard", ensureLogin, (req,res) => {
     res.render("dashboard", {user: req.session.user, layout: false});
 });
+
+app.get("/report/Edit", ensureLogin, (req,res) => {
+    res.render("reportEdit", {user: req.session.user, layout: false});
+})
+
+app.get("/report/Edit/:reportID", ensureLogin, (req,res) => {
+    const reportID = req.params.reportID;
+
+    reportModel.findOne({_id: reportID})
+        .lean()
+        .exec()
+        .then((report)=>{
+            res.render("reportEdit", {user: req.session.user, report: report, editmode: true, layout: false})
+        .catch(()=>{});
+    });
+});
+
+app.get("/report/Delete/:reportID", ensureLogin, (req, res) => {
+    const reportID = req.params.reportID;
+    reportModel.deleteOne({_id: reportID})
+        .then(()=>{
+            res.redirect("/report");
+        });
+})00
+
+
+
+
 
 /* #region CARS */ 
 /*app.get("/Cars", ensureLogin, (req,res) => {
