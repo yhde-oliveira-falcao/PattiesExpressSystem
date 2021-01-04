@@ -84,7 +84,7 @@ app.post("/login", (req, res) => {
                         lastName: usr.lastName,
                         isAdmin: usr.isAdmin
                     };
-                    res.redirect("/dashboard");
+                    res.redirect("/report");
                 } else {
                     res.render("login", {errorMsg: "login and password does not match!", layout: false});
                 };
@@ -138,13 +138,50 @@ app.post("/Profile/Edit", ensureLogin, (req,res) => {
 
 /* #endregion */
 
-app.get("/dashboard", ensureLogin, (req,res) => {
-    res.render("dashboard", {user: req.session.user, layout: false});
+app.get("/report", ensureLogin, (req,res) => {
+    res.render("report", {user: req.session.user, layout: false});
 });
 
 app.get("/report/Edit", ensureLogin, (req,res) => {
     res.render("reportEdit", {user: req.session.user, layout: false});
 })
+
+app.post("/report/Edit", ensureLogin, (req,res) => {
+    const report = new ReportModel({
+        _id: req.body.ID,
+        X: req.body.X,
+        R: req.body.R,
+        NS: req.body.NS,
+        C: req.body.C,
+        V: req.body.V,
+        Cocobread: req.body.cocobread,
+        Cash: req.body.cash,
+        Debit: req.body.debit,
+        Tips: req.body.tips,
+        Drinks: req.body.drinks,
+        Extras: req.body.extras
+    });
+    if (req.body.edit === "1") {
+        reportModel.updateOne({_id: report._id},
+            { $set: {
+                X: report.X,
+                R: report.R,
+                NS: report.NS,
+                C: report.C,
+                V: report.V,
+                Cocobread: report.cocobread,
+                Cash: report.cash,
+                Debit: report.debit,
+                Tips: report.tips,
+                Drinks: report.drinks,
+                Extras: report.extras
+            }}
+            ).exec().then((err)=>{});
+    } else { 
+        report.save((err)=>{});
+    };
+    res.redirect("/report");
+});
 
 app.get("/report/Edit/:reportID", ensureLogin, (req,res) => {
     const reportID = req.params.reportID;

@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Dashboard</title>
+          <link rel="stylesheet" href="/css/theme.css" />
+
+</head>
+
+<body>
+    {{> header user}}
+    <h1>Report Editor</h1>
+    <form method="POST" action="/report/Edit">
+        {{#if report._id}}
+            <input type="hidden" name="ID" value="{{report._id}}" />
+            <input type="hidden" name="edit" value="1" />
+            <h4>Editing report ID: {{report._id}}</h4>
+        {{else}}
+            <input type="hidden" name="edit" value="0" />
+            <label class="fixedlabel">ID</label>
+            <input type="number" name="ID" /><br/>
+        {{/if}}
+        <label class="fixedlabel">Year</label>
+        <input type="number" name="year" value="{{report.X}}" /><br/>
+        
+        <label class="fixedlabel">Make</label>
+        <input type="text" name="make" value="{{report.R}}" /><br/>
+        
+        <label class="fixedlabel">Model</label>
+        <input type="text" name="model" value="{{report.NS}}" /><br/>
+        
+        <label class="fixedlabel">VIN</label>
+        <input type="text" name="VIN" value="{{report.C}}" /><br/>
+        
+        <label class="fixedlabel">Colour</label>
+        <input type="text" name="colour" value="{{report.V}}" /><br/>
+
+        <label class="fixedlabel">Colour</label>
+        <input type="text" name="colour" value="{{report.Cocobread}}" /><br/>
+
+        <label class="fixedlabel">Colour</label>
+        <input type="text" name="colour" value="{{report.Cash}}" /><br/>
+
+        <label class="fixedlabel">Colour</label>
+        <input type="text" name="colour" value="{{report.Debit}}" /><br/>
+
+        <label class="fixedlabel">Colour</label>
+        <input type="text" name="colour" value="{{report.Tips}}" /><br/>
+
+        <label class="fixedlabel">Colour</label>
+        <input type="text" name="colour" value="{{report.Drinks}}" /><br/>
+
+        <label class="fixedlabel">Colour</label>
+        <input type="text" name="colour" value="{{report.Extras}}" /><br/>
+                                                
+        <label class="fixedlabel"></label>
+        <button type="submit" name="submit">Submit</button>
+    </form>
+
+    {{> footer user}}
+</body>
+</html>
