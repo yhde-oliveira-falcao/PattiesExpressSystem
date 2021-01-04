@@ -146,9 +146,9 @@ app.get("/Report", ensureLogin, (req,res) => {
         });
 })
 
-app.get("/report", ensureLogin, (req,res) => {
+/*app.get("/report", ensureLogin, (req,res) => {
     res.render("report", {user: req.session.user, layout: false});
-});
+});*/
 
 app.get("/report/Edit", ensureLogin, (req,res) => {
     res.render("reportEdit", {user: req.session.user, layout: false});
