@@ -8,7 +8,7 @@ const clientSessions = require("client-sessions");
 const mongoose = require("mongoose");
 const config = require("./js/config");
 
-const CarModel = require("./models/reportModel");
+const reportModel = require("./models/reportModel");
 const UserModel = require("./models/userModel");
 const { response } = require("express");
 
@@ -138,7 +138,7 @@ app.post("/Profile/Edit", ensureLogin, (req,res) => {
 
 /* #endregion */
 app.get("/report", ensureLogin, (req,res) => {
-    ReportModel.find()
+    reportModel.find()
         .lean()
         .exec()
         .then((report) =>{
