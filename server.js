@@ -137,6 +137,14 @@ app.post("/Profile/Edit", ensureLogin, (req,res) => {
 });
 
 /* #endregion */
+app.get("/Report", ensureLogin, (req,res) => {
+    RoomModel.find()
+        .lean()
+        .exec()
+        .then((report) =>{
+            res.render("report", {report: report, hasReport: !!report.length, user: req.session.user, layout: false});
+        });
+})
 
 app.get("/report", ensureLogin, (req,res) => {
     res.render("report", {user: req.session.user, layout: false});
@@ -154,12 +162,12 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
         NS: req.body.NS,
         C: req.body.C,
         V: req.body.V,
-        Cocobread: req.body.cocobread,
-        Cash: req.body.cash,
-        Debit: req.body.debit,
-        Tips: req.body.tips,
-        Drinks: req.body.drinks,
-        Extras: req.body.extras
+        Cocobread: req.body.Cocobread,
+        Cash: req.body.Cash,
+        Debit: req.body.Debit,
+        Tips: req.body.Tips,
+        Drinks: req.body.Drinks,
+        Extras: req.body.Extras
     });
     if (req.body.edit === "1") {
         reportModel.updateOne({_id: report._id},

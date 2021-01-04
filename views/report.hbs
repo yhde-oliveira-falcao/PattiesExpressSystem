@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Dashboard</title>
+          <link rel="stylesheet" href="css/theme.css" />
+
+</head>
+
+<body>
+    {{> header user}}
+    <h1>Cars</h1>
+    <p><a href="/report/Edit">Add New report</a></p>
+    {{#if hasCars}}
+    <table border="1">
+    <thead>
+
+      <tr>
+        <td>&nbsp;</td>
+        <td>ID</td>
+        <td>X</td>
+        <td>R</td>
+        <td>NS</td>
+        <td>C</td>
+        <td>V</td>
+        <td>Cocobread</td>
+        <td>Cash</td>
+        <td>Debit</td>
+        <td>Tips</td>
+        <td>Drinks</td>
+        <td>Extras</td>
+        <td>&nbsp;</td>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each report}}
+      <tr>
+        <td><a href="/Cars/Edit/{{_id}}">Edit</a></td>
+        <td>{{@index}}: {{_id}}</td>
+        <td>{{X}}</td>
+        <td>{{R}}</td>
+        <td>{{NS}}</td>
+        <td>{{C}}</td>
+        <td>{{V}}</td>
+        <td>{{Cocobread}}</td>
+        <td>{{Cash}}</td>
+        <td>{{Debit}}</td>
+        <td>{{Tips}}</td>
+        <td>{{Drinks}}</td>
+        <td>{{Extras}}</td>
+        <td><a href="/report/Delete/{{_id}}">Delete</a></td>
+      </tr>
+      {{else}}
+      <tr><td colspan="8">No data was found</td></tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{else}}
+  no report
+  {{/if}}
+  {{>footer}}
+  </body>   
+  </html>   
