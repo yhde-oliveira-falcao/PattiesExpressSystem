@@ -8,7 +8,7 @@ const clientSessions = require("client-sessions");
 const mongoose = require("mongoose");
 const config = require("./js/config");
 
-//const CarModel = require("./models/carModel");
+const CarModel = require("./models/reportModel");
 const UserModel = require("./models/userModel");
 const { response } = require("express");
 
