@@ -43,7 +43,7 @@ app.use(bodyParser.urlencoded({extended: false }));
 /* #region SECURITY */
 function ensureLogin(req, res, next) {
     if (!req.session.user) {
-      res.redirect("/login");
+      res.redirect("/");
     } else {
       next();
     }
