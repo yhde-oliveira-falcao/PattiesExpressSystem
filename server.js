@@ -137,7 +137,7 @@ app.post("/Profile/Edit", ensureLogin, (req,res) => {
 });
 
 /* #endregion */
-app.get("/Report", ensureLogin, (req,res) => {
+app.get("/report", ensureLogin, (req,res) => {
     ReportModel.find()
         .lean()
         .exec()

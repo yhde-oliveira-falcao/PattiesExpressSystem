@@ -11,7 +11,7 @@
     {{> header user}}
     <h1>Cars</h1>
     <p><a href="/report/Edit">Add New report</a></p>
-    {{#if hasCars}}
+    {{#if hasReport}}
     <table border="1">
     <thead>
 
@@ -35,7 +35,7 @@
     <tbody>
       {{#each report}}
       <tr>
-        <td><a href="/Cars/Edit/{{_id}}">Edit</a></td>
+        <td><a href="/report/Edit/{{_id}}">Edit</a></td>
         <td>{{@index}}: {{_id}}</td>
         <td>{{X}}</td>
         <td>{{R}}</td>
