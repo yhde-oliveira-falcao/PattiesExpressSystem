@@ -9,7 +9,7 @@ mongoose.Promise = require("bluebird");
 // car model
 const reportSchema = new Schema({
     "_id": {
-        type: Number
+        type: String
     },
     "X": Number,
     "R": Number,
