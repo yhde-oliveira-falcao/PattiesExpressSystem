@@ -80,6 +80,7 @@ app.post("/login", (req, res) => {
                     req.session.user = {
                         username: usr.username,
                         email: usr.email,
+                        phone: usr.phone,
                         firstName: usr.firstName,
                         lastName: usr.lastName,
                         isAdmin: usr.isAdmin
@@ -114,6 +115,7 @@ app.post("/Profile/Edit", ensureLogin, (req,res) => {
     const firstName = req.body.firstname;
     const lastName = req.body.lastname;
     const Email = req.body.email;
+    const Phone = req.body.phone;
     const isAdmin = (req.body.isAdmin === "on");
     UserModel.updateOne(
         { username: username },
@@ -121,6 +123,7 @@ app.post("/Profile/Edit", ensureLogin, (req,res) => {
             firstName: firstName,
             lastName: lastName,
             email: Email,
+            phone: Phone,
             isAdmin: true
         }}
     ).exec()
@@ -128,6 +131,7 @@ app.post("/Profile/Edit", ensureLogin, (req,res) => {
         req.session.user = {
             username: username,
             email: Email,
+            phone: Phone,
             firstName: firstName,
             lastName: lastName,
             isAdmin: isAdmin
@@ -194,7 +198,7 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
 app.get("/report/Edit/:reportID", ensureLogin, (req,res) => {
     const reportID = req.params.reportID;
 
-    reportModel.findOne({_id: reportID})
+    ReportModel.findOne({_id: reportID})
         .lean()
         .exec()
         .then((report)=>{
@@ -205,7 +209,7 @@ app.get("/report/Edit/:reportID", ensureLogin, (req,res) => {
 
 app.get("/report/Delete/:reportID", ensureLogin, (req, res) => {
     const reportID = req.params.reportID;
-    reportModel.deleteOne({_id: reportID})
+    ReportModel.deleteOne({_id: reportID})
         .then(()=>{
             res.redirect("/report");
         });
@@ -290,6 +294,7 @@ app.get("/firstrunsetup", (req,res)=> {
         firstName: 'Yuri',
         lastName: 'Falcao',
         email: 'yhofalcao@gmail.com',
+        phone: '',
         isAdmin: true
     });
     console.log("got here!");

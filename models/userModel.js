@@ -17,6 +17,7 @@ const userSchema = new Schema({
     "email": {
         type: String,
         unique: true },
+    "phone": Number,
     "isAdmin": Boolean
 });
 
