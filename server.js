@@ -6,6 +6,8 @@ var path = require("path");
 const ehbs = require('express-handlebars');
 const clientSessions = require("client-sessions");
 const mongoose = require("mongoose");
+var nodemailer = require("nodemailer");
+
 const config = require("./js/config");
 
 const ReportModel = require("./models/reportModel");
@@ -37,6 +39,15 @@ app.use(clientSessions({
 }));
 
 app.use(bodyParser.urlencoded({extended: false }));
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'reportsendPatties@gmail.com',
+        
+        pass: 'PattiesReport'
+    },
+});
 
 /* #endregion */
 
@@ -192,6 +203,23 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
     } else { 
         report.save((err)=>{});
     };
+    var mailOptions = {
+        from: 'YuriWeb322@gmail.com',
+        to: 'yhofalcao@gmail.com',
+        subject: 'Welcome to YUYUBnB',
+        html: '<p> Mr(s). ' + ":</p><br/> <p>Welcome!!! :D </p>" +
+        "<p>Thank you for joining the best rental service in the world!</p><br>"+
+        "<p>Check out more information at our website</p> <br>"+
+    "https://shrouded-bastion-62981.herokuapp.com"    
+    }
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error){
+            console.log("ERROR: " + error);
+        } else {
+            console.log("SUCCESS: " + info.response);
+        }
+    });
+
     res.redirect("/report");
 });
 
@@ -214,9 +242,6 @@ app.get("/report/Delete/:reportID", ensureLogin, (req, res) => {
             res.redirect("/report");
         });
 })
-
-
-
 
 
 /* #region CARS */ 
@@ -288,7 +313,7 @@ app.get("/report/Delete/:reportID", ensureLogin, (req, res) => {
 /* #endregion */
 
 app.get("/firstrunsetup", (req,res)=> {
-    var Clint = new UserModel({
+    var Yuri = new UserModel({
         username: 'yuri',
         password: 'password',
         firstName: 'Yuri',
@@ -298,7 +323,7 @@ app.get("/firstrunsetup", (req,res)=> {
         isAdmin: true
     });
     console.log("got here!");
-    Clint.save((err)=> {
+    Yuri.save((err)=> {
         console.log("Error: " + err + ';');
         if (err) {
             console.log("There was an error creating Yuri: " + err);
