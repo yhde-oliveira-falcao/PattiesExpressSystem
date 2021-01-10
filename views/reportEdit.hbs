@@ -13,14 +13,14 @@
     <form method="POST" action="/report/Edit">
         {{#if report._id}}
             <input type="hidden" name="ID" value="{{report._id}}" />
-            <input type="hidden" name="edit" value="1" />
+            <input type="date" name="edit" value="1" />
             <h4>Editing report ID: {{report._id}}</h4>
         {{else}}
             <input type="hidden" name="edit" value="0" />
             <label class="fixedlabel">ID</label>
             <input type="date" name="ID" /><br/>
         {{/if}}
-        
+
         <label class="fixedlabel">X</label>
         <input type="number" name="X" value="{{report.X}}" /><br/>
         
