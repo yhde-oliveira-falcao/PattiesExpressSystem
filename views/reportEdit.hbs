@@ -14,7 +14,7 @@
         {{#if report._id}}
             <input type="hidden" name="ID" value="{{report._id}}" />
             <input type="date" name="edit" value="1" />
-            <h4>Editing report ID: {{report._id}}</h4>
+            <h4>Editing report ID: {{report._id}}</h4><br><br>
         {{else}}
             <input type="hidden" name="edit" value="0" />
             <label class="fixedlabel">ID</label>
@@ -55,7 +55,7 @@
         <input type="text" name="Extras" value="{{report.Extras}}" /><br><br>
                                                 
         <label class="fixedlabel"></label>
-        <button type="submit" name="submit">Submit</button>
+        <button type="submit" name="submit">Submit</button><br><br>
     </form>
 
     {{> footer user}}
