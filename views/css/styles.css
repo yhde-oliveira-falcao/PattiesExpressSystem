@@ -115,8 +115,8 @@ p {
 .services,
 .contactus,
 .ourteam {
-    text-align: left;
-    padding: 10% 10%;
+    text-align: right;
+    padding: 50% 50%;
 
 }
 .about .title{
