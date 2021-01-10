@@ -118,7 +118,10 @@ p {
     text-align: center;
     /*padding: 1% 35%;*/
 }
-
+.button1{
+    border-radius: 4px;
+    background-color: #008CBA;
+}
 .about .title{
     font-size: 20px;
 }
