@@ -3,14 +3,14 @@
 
 <head>
   <title>Dashboard</title>
-          <link rel="stylesheet" href="/css/theme.css" />
+          <link rel="stylesheet" href="/css/styles.css" />
 
 </head>
 
 <body>
     {{> header user}}
     <h1>Report Editor</h1>
-    <form method="POST" action="/report/Edit">
+    <form class="about" method="POST" action="/report/Edit">
         {{#if report._id}}
             <input type="hidden" name="ID" value="{{report._id}}" />
             <input type="date" name="edit" value="1" />
