@@ -115,9 +115,10 @@ p {
 .services,
 .contactus,
 .ourteam {
-    text-align: left;
-    padding: 1% 35%;
+    text-align: center;
+    /*padding: 1% 35%;*/
 }
+
 .about .title{
     font-size: 20px;
 }
