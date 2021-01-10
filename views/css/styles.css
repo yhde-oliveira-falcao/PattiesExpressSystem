@@ -117,7 +117,9 @@ p {
 .ourteam {
     text-align: center;
     padding: 1% 25%;
-
+}
+.services input{
+    padding: 10%;
 }
 .about .title{
     font-size: 20px;
