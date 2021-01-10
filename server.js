@@ -204,7 +204,7 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
         report.save((err)=>{});
     };
     var mailOptions = {
-        from: 'YuriWeb322@gmail.com',
+        from: 'reportsendPatties@gmail.com',
         to: 'yhofalcao@gmail.com',
         subject: 'Welcome to YUYUBnB',
         html: '<p> Mr(s). ' + ":</p><br/> <p>Welcome!!! :D </p>" +
