@@ -121,6 +121,8 @@ p {
 .button1{
     border-radius: 4px;
     background-color: #008CBA;
+    font-size: 16px;
+    padding: 12px 28px;
 }
 .about .title{
     font-size: 20px;
