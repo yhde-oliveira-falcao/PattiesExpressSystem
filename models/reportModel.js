@@ -17,9 +17,9 @@ const reportSchema = new Schema({
     "C": Number,
     "V": Number,
     "Cocobread": Number,
-    "Cash": Number,
-    "Debit": Number,
-    "Tips": Number,
+    "Cash": String,
+    "Debit": String,
+    "Tips": String,
     "Drinks": String,
     "Extras": String,
 });

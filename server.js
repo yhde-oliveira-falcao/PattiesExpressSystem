@@ -171,18 +171,18 @@ app.get("/report/Edit", ensureLogin, (req,res) => {
 
 app.post("/report/Edit", ensureLogin, (req,res) => {
     const report = new ReportModel({
-        _id: req.body.ID,
-        X: req.body.X,
-        R: req.body.R,
-        NS: req.body.NS,
-        C: req.body.C,
-        V: req.body.V,
-        Cocobread: req.body.Cocobread,
-        Cash: req.body.Cash,
-        Debit: req.body.Debit,
-        Tips: req.body.Tips,
-        Drinks: req.body.Drinks,
-        Extras: req.body.Extras
+        _id: req.body.ID,       //
+        X: req.body.X,          //
+        R: req.body.R,          //=
+        NS: req.body.NS,        //==
+        C: req.body.C,          //=====
+        V: req.body.V,          //=========
+        Cocobread: req.body.Cocobread,//============>>Create a new model (for the reports). It will be sent to the database
+        Cash: req.body.Cash,    //==========
+        Debit: req.body.Debit,  //=====
+        Tips: req.body.Tips,    //==
+        Drinks: req.body.Drinks,//=
+        Extras: req.body.Extras //
     });
     if (req.body.edit === "1") {
         reportModel.updateOne({_id: report._id},
