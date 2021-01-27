@@ -244,7 +244,7 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
         '<td><a href="/report/Delete/{{_id}}">Delete</a></td>'+
       '</tr>'+
         "<p>Check out more information at our website</p> <br>"+
-    "https://.herokuapp.com"   
+    "https://evening-savannah-18144.herokuapp.com"   
     }
     transporter.sendMail(mailOptions, (error, info) => {
         if (error){
