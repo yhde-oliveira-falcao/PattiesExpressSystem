@@ -43,8 +43,7 @@ app.use(bodyParser.urlencoded({extended: false }));
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'reportsendPatties@gmail.com',
-        
+        user: 'reportsendPatties@gmail.com',      
         pass: 'PattiesReport'
     },
 });
@@ -206,11 +205,46 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
     var mailOptions = {
         from: 'reportsendPatties@gmail.com',
         to: 'yhofalcao@gmail.com',
-        subject: 'Welcome to YUYUBnB',
+        subject: 'Patties Daily Report',
         html: '<p> Mr(s). ' + ":</p><br/> <p>Welcome!!! :D </p>" +
         "<p>Thank you for joining the best rental service in the world!</p><br>"+
+        '<tr>'+
+        '<td>&nbsp;</td>'+
+        '<td>ID</td>'+
+        '<td>X</td>'+
+        '<td>R</td>'+
+        '<td>NS</td>'+
+        '<td>C</td>'+
+        '<td>V</td>'+
+        '<td>Cocobread</td>'+
+        '<td>Cash</td>'+
+        '<td>Debit</td>'+
+        '<td>Tips</td>'+
+        '<td>Drinks</td>'+
+        '<td>Extras</td>'+
+        '<td>&nbsp;</td>'+
+      '</tr>'+
+    '</thead>'+
+    '<tbody>'+
+      '{{_id: report._id}}'+
+      '<tr>'+
+        '<td><a href="/report/Edit/{{_id}}">Edit</a></td>'+
+        '<td>{{@index}}: {{_id}}</td>'+
+        '<td>{{X}}</td>'+
+        '<td>{{R}}</td>'+
+        '<td>{{NS}}</td>'+
+        '<td>{{C}}</td>'+
+        '<td>{{V}}</td>'+
+        '<td>{{Cocobread}}</td>'+
+        '<td>{{Cash}}</td>'+
+        '<td>{{Debit}}</td>'+
+        '<td>{{Tips}}</td>'+
+        '<td>{{Drinks}}</td>'+
+        '<td>{{Extras}}</td>'+
+        '<td><a href="/report/Delete/{{_id}}">Delete</a></td>'+
+      '</tr>'+
         "<p>Check out more information at our website</p> <br>"+
-    "https://shrouded-bastion-62981.herokuapp.com"    
+    "https://.herokuapp.com"   
     }
     transporter.sendMail(mailOptions, (error, info) => {
         if (error){
@@ -317,7 +351,7 @@ app.get("/firstrunsetup", (req,res)=> {
         username: 'yuri',
         password: 'password',
         firstName: 'Yuri',
-        lastName: 'Falcao',
+        lastName: 'Yuri',
         email: 'yhofalcao@gmail.com',
         phone: '',
         isAdmin: true
