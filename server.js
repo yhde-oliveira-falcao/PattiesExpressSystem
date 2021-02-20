@@ -1,4 +1,6 @@
 /* #region REQUIRES */
+require('dotenv').config();
+
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
@@ -40,13 +42,9 @@ app.use(clientSessions({
 
 app.use(bodyParser.urlencoded({extended: false }));
 
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'reportsendPatties@gmail.com',      
-        pass: 'PattiesReport'
-    },
-});
+///////////////////////////////////////////////////////////////////////////////
+var transporter = process.env.TRANSPORTER; 
+/////////////////////////////////////////////////////////////////////////////////
 
 /* #endregion */
 
