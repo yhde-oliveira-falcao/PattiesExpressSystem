@@ -28,14 +28,14 @@ mongoose.connect(config.dbconn, {useNewUrlParser: true, useUnifiedTopology: true
 
 function onHttpStart() {
     console.log("Express http server listing on: " + HTTP_PORT);
-    };
+};
 
 app.use(express.static("views"));
 app.use(express.static("public"));
     
 app.use(clientSessions({
-    cookieName: "session",
-    secret: "web322_week10_demoSession",
+    cookieName: "PattiesReporter",
+    secret: "PattiesReporter",
     duration: 2*60*1000,
     activeDuration: 1000*60
 }));
