@@ -24,7 +24,13 @@ app.set('view engine', '.hbs');
 
 var HTTP_PORT = process.env.PORT || 8080;
 
-mongoose.connect(config.dbconn, {useNewUrlParser: true, useUnifiedTopology: true} )
+//mongoose.connect(config.dbconn, {useNewUrlParser: true, useUnifiedTopology: true} )
+
+mongoose.connect(process.env.DATABASE_URL, { 
+    useNewUrlParser : true,
+    useUnifiedTopology: true 
+})
+
 
 function onHttpStart() {
     console.log("Express http server listing on: " + HTTP_PORT);
