@@ -1,5 +1,6 @@
 /* #region REQUIRES */
-require('dotenv').config();
+//require('dotenv').config();
+require("dotenv").config({ path: ".env" }); 
 
 var express = require("express");
 var app = express();
@@ -10,7 +11,7 @@ const clientSessions = require("client-sessions");
 const mongoose = require("mongoose");
 var nodemailer = require("nodemailer");
 
-const config = require("./js/config");
+//const config = require("./js/config");
 
 const ReportModel = require("./models/reportModel");
 const UserModel = require("./models/userModel");
@@ -28,8 +29,12 @@ var HTTP_PORT = process.env.PORT || 8080;
 
 mongoose.connect(process.env.DATABASE_URL, { 
     useNewUrlParser : true,
-    useUnifiedTopology: true 
+    useUnifiedTopology: true,
+    useCreateIndex: true,
 })
+mongoose.connection.on("open", () => {
+    console.log("Database connection open.");
+});
 
 
 function onHttpStart() {
@@ -71,7 +76,7 @@ function ensureLogin(req, res, next) {
 
     /* #region LOGIN LOGOUT */
     //=====================THE HOME PAGE IS THE LOGIN PAGE========================
-app.get("/", (req,res)=>{
+app.get("/login", (req,res)=>{
         res.render("login", {layout: false});
     });
 
