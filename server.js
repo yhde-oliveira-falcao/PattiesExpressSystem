@@ -1,7 +1,4 @@
 /* #region REQUIRES */
-//require('dotenv').config();
-require("dotenv").config({ path: ".env" }); 
-
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
@@ -11,7 +8,7 @@ const clientSessions = require("client-sessions");
 const mongoose = require("mongoose");
 var nodemailer = require("nodemailer");
 
-//const config = require("./js/config");
+const config = require("./js/config");
 
 const ReportModel = require("./models/reportModel");
 const UserModel = require("./models/userModel");
@@ -25,37 +22,31 @@ app.set('view engine', '.hbs');
 
 var HTTP_PORT = process.env.PORT || 8080;
 
-//mongoose.connect(config.dbconn, {useNewUrlParser: true, useUnifiedTopology: true} )
-
-mongoose.connect(process.env.DATABASE_URL, { 
-    useNewUrlParser : true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-})
-mongoose.connection.on("open", () => {
-    console.log("Database connection open.");
-});
-
+mongoose.connect(config.dbconn, {useNewUrlParser: true, useUnifiedTopology: true} )
 
 function onHttpStart() {
     console.log("Express http server listing on: " + HTTP_PORT);
-};
+    };
 
 app.use(express.static("views"));
 app.use(express.static("public"));
     
 app.use(clientSessions({
-    cookieName: "PattiesReporter",
-    secret: "PattiesReporter",
+    cookieName: "session",
+    secret: "web322_week10_demoSession",
     duration: 2*60*1000,
     activeDuration: 1000*60
 }));
 
 app.use(bodyParser.urlencoded({extended: false }));
 
-///////////////////////////////////////////////////////////////////////////////
-var transporter = process.env.TRANSPORTER; 
-/////////////////////////////////////////////////////////////////////////////////
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'reportsendPatties@gmail.com',      
+        pass: 'PattiesReport'
+    },
+});
 
 /* #endregion */
 
@@ -76,7 +67,7 @@ function ensureLogin(req, res, next) {
 
     /* #region LOGIN LOGOUT */
     //=====================THE HOME PAGE IS THE LOGIN PAGE========================
-app.get("/login", (req,res)=>{
+app.get("/", (req,res)=>{
         res.render("login", {layout: false});
     });
 
