@@ -24,17 +24,17 @@ app.set('view engine', '.hbs');
 
 var HTTP_PORT = process.env.PORT || 8080;
 
-//mongoose.connect(config.dbconn, {useNewUrlParser: true, useUnifiedTopology: true} )
+mongoose.connect(config.dbconn, {useNewUrlParser: true, useUnifiedTopology: true} )
 
 
-mongoose.connect(process.env.mongoDB_atlas, {
+/*mongoose.connect(process.env.mongoDB_atlas, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
   });
 mongoose.connection.on("open", () => {
     console.log("Database connection open.");
-});
+});*/
 
 function onHttpStart() {
     console.log("Express http server listing on: " + HTTP_PORT);
