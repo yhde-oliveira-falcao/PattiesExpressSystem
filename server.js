@@ -1,4 +1,4 @@
-//process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0; //SUPER TEMPORARY FIX!!! VERY DANGEROUS
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0; //SUPER TEMPORARY FIX!!! VERY DANGEROUS
 // CHECK: https://github.com/nodemailer/nodemailer/issues/406#issuecomment-83941225
 // https://stackoverflow.com/questions/46742402/error-self-signed-certificate-in-certificate-chain-nodejs-nodemailer-express
 //https://windowsreport.com/self-signed-certificate-error/
