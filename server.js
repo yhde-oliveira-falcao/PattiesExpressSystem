@@ -1,3 +1,8 @@
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0; //SUPER TEMPORARY FIX!!! VERY DANGEROUS
+// CHECK: https://github.com/nodemailer/nodemailer/issues/406#issuecomment-83941225
+// https://stackoverflow.com/questions/46742402/error-self-signed-certificate-in-certificate-chain-nodejs-nodemailer-express
+//https://windowsreport.com/self-signed-certificate-error/
+
 /* #region REQUIRES */
 var express = require("express");
 var app = express();
@@ -24,7 +29,7 @@ app.set('view engine', '.hbs');
 
 var HTTP_PORT = process.env.PORT || 8080;
 
-mongoose.connect(config.dbconn, {useNewUrlParser: true, useUnifiedTopology: true} )
+mongoose.connect(config.dbconn, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true} )
 
 
 /*mongoose.connect(process.env.mongoDB_atlas, {
@@ -46,7 +51,7 @@ app.use(express.static("public"));
 app.use(clientSessions({
     cookieName: "session",
     secret: "web322_week10_demoSession",
-    duration: 2*60*1000,
+    duration: 20*60*1000,
     activeDuration: 1000*60
 }));
 
@@ -219,44 +224,20 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
         to: 'yhofalcao@gmail.com',
         subject: 'Patties Daily Report',
         html: '<p> Mr(s). ' + ":</p><br/> <p>Welcome!!! :D </p>" +
-        "<p>Thank you for joining the best rental service in the world!</p><br>"+
-        '<tr>'+
-        '<td>&nbsp;</td>'+
-        '<td>ID</td>'+
-        '<td>X</td>'+
-        '<td>R</td>'+
-        '<td>NS</td>'+
-        '<td>C</td>'+
-        '<td>V</td>'+
-        '<td>Cocobread</td>'+
-        '<td>Cash</td>'+
-        '<td>Debit</td>'+
-        '<td>Tips</td>'+
-        '<td>Drinks</td>'+
-        '<td>Extras</td>'+
-        '<td>&nbsp;</td>'+
-      '</tr>'+
-    '</thead>'+
-    '<tbody>'+
-      '{{_id: report._id}}'+
-      '<tr>'+
-        '<td><a href="/report/Edit/{{_id}}">Edit</a></td>'+
-        '<td>{{@index}}: {{_id}}</td>'+
-        '<td>{{X}}</td>'+
-        '<td>{{R}}</td>'+
-        '<td>{{NS}}</td>'+
-        '<td>{{C}}</td>'+
-        '<td>{{V}}</td>'+
-        '<td>{{Cocobread}}</td>'+
-        '<td>{{Cash}}</td>'+
-        '<td>{{Debit}}</td>'+
-        '<td>{{Tips}}</td>'+
-        '<td>{{Drinks}}</td>'+
-        '<td>{{Extras}}</td>'+
-        '<td><a href="/report/Delete/{{_id}}">Delete</a></td>'+
-      '</tr>'+
-        "<p>Check out more information at our website</p> <br>"+
-    "https://evening-savannah-18144.herokuapp.com"   
+        "<p>Report For the Day!</p><br>"+
+        "<p>Date: " + req.body.ID + "</p>" +
+        "<p>X: " + req.body.X + "</p>" +
+        "<p>R: " + req.body.R + "</p>" +
+        "<p>NS: " + req.body.NS + "</p>" +
+        "<p>C: " + req.body.C + "</p>" +
+        "<p>V: " + req.body.V + "</p>" +
+        "<p>Cocobread: " + req.body.Cocobread + "</p>" +
+        "<p>Cash: " + req.body.Cash + "</p>" +
+        "<p>Debit: " + req.body.Debit + "</p>" +
+        "<p>Tips: " + req.body.Tips + "</p>" +
+        "<p>Drinks: " +  req.body.Drinks + "</p>" +
+        "<p>Extras: " + req.body.Extras + "</p>" 
+        
     }
     transporter.sendMail(mailOptions, (error, info) => {
         if (error){
