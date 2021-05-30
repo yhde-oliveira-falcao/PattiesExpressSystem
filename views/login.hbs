@@ -1,30 +1,4 @@
-<!--doctype html>
-<html>
 
-<head>
-  <title>Login</title>
-
-</head>
-
-<body>
-    {{> header user}}
-<h1>Login Page</h1>
-   
-    {{#if errorMsg}}
-        <h5>{{errorMsg}}</h5>
-    {{else}}
-        <h5>Please login below</h5>
-    {{/if}}
-   
-    <form method="post" action="/login">
-        <label class="fixedlabel">Username</label><input name="username" type="text"><br/>
-        <label class="fixedlabel">Password</label><input name="password" type="password"><br/>
-        <label class="fixedlabel"></label><button type="submit">Login</button>
-    </form>
-
-</body>
-
-</html-->
 <!doctype html>
 <html>
 
