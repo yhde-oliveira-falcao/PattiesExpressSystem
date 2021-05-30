@@ -116,14 +116,19 @@ p {
 .contactus,
 .ourteam {
     text-align: center;
-    padding: 4% 5%;
+    /*padding: 1% 35%;*/
+}
+.button1{
+    border-radius: 4px;
+    background-color: #008CBA;
+    font-size: 16px;
+    padding: 12px 28px;
 }
 .about .title{
     font-size: 20px;
 }
 .about h1{
     margin-bottom: 1px;
-
 }
  #about2{
     

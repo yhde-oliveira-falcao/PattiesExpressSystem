@@ -1,4 +1,4 @@
-<!doctype html>
+<!--doctype html>
 <html>
 
 <head>
@@ -21,6 +21,36 @@
         <label class="fixedlabel">Password</label><input name="password" type="password"><br/>
         <label class="fixedlabel"></label><button type="submit">Login</button>
     </form>
+
+</body>
+
+</html-->
+<!doctype html>
+<html>
+
+<head>
+  <title>Login</title>
+          <link rel="stylesheet" href="css/styles.css" />
+
+</head>
+
+<body>
+    {{> header user}}
+        <div class="about" id="about2">
+
+<h1>Login</h1>
+    {{#if errorMsg}}
+        <h5>{{errorMsg}}</h5><BR>
+    {{else}}
+        <h5>Please login below</h5>
+    {{/if}}
+    <form method="post" action="/login">
+        <label class="fixedlabel">Username: </label><input name="username" type="text"><br/><BR>
+        <label class="fixedlabel">Password: </label><input name="password" type="password"><br/><BR>
+        <label class="fixedlabel"></label><button type="submit">Login</button>
+    </form>
+    </div>
+            {{> footer user}}
 
 </body>
 
