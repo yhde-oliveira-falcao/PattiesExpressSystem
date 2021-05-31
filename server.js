@@ -29,21 +29,12 @@ app.set('view engine', '.hbs');
 
 var HTTP_PORT = process.env.PORT || 8080;
 
-mongoose.connect(config.dbconn, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true} )
+mongoose.connect(process.env.dbconn, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true} )
 
-
-/*mongoose.connect(process.env.mongoDB_atlas, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  });
-mongoose.connection.on("open", () => {
-    console.log("Database connection open.");
-});*/
 
 function onHttpStart() {
     console.log("Express http server listing on: " + HTTP_PORT);
-    };
+};
 
 app.use(express.static("views"));
 app.use(express.static("public"));
@@ -59,12 +50,12 @@ app.use(bodyParser.urlencoded({extended: false }));
 
 var transporter = nodemailer.createTransport({
     host: "gmail.com",
-    secure: false,
+    secure: false, //https://github.com/nodemailer/nodemailer/issues/406
     port: 25,
     service: 'gmail',
     auth: {
-        user: 'reportsendPatties@gmail.com',      
-        pass: 'Patties@Report123'
+        user: process.env.mailerUser,      
+        pass: process.env.mailerPassword
     },
     tls: {
         rejectUnauthorized: false
@@ -226,7 +217,7 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
         report.save((err)=>{});
     };
     var mailOptions = {
-        from: 'reportsendPatties@gmail.com',
+        from: process.env.mailerUser,
         to: 'yhofalcao@gmail.com',
         subject: 'Patties Daily Report',
         html: '<p> Mr(s). ' + ":</p><br/> <p>Welcome!!! :D </p>" +
