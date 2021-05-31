@@ -78,10 +78,10 @@ p {
 /* banner_image */
 
 .banner_image {
-    background: url('/images2/torontocity2.jpg') no-repeat top center;
+    background: url('/images2/pattiesexpress.png') no-repeat top center;
     background-size: cover;
     width: 100%;
-    height: 350px;
+    height: 280px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -89,7 +89,7 @@ p {
 
 .banner_content {
     text-align: center;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
 }
 
 .banner_content h1 {
@@ -97,11 +97,21 @@ p {
     font-size: 60px;
     /*text-transform: uppercase;*/
     line-height: 38px;
-    margin-bottom: 15px;
+    padding-top: 10%;
+}
+.reportEditor{
+	text-align: center;
+	justify-content: center;
+
 }
 
 .banner_content .navbar_items{
-    padding-top: 190px;
+    padding-top: 30%;
+	color: #fff;
+}
+.banner_content .navbar_items a{
+    
+	color: #fff;
 }
 
 .banner_content h1 span {
@@ -112,11 +122,11 @@ p {
 /* About */
 
 .about,
-.services,
-.contactus,
-.ourteam {
+.services{
     text-align: center;
     padding: 4% 5%;
+	width: 20%;
+	justify-items: center;
 }
 .about .title{
     font-size: 20px;
@@ -194,14 +204,14 @@ p {
 
 
 /* Contact us */
-.contactus{
+/*.contactus{
     display: flex;
     flex-direction: column;
     margin: 15px;
     border: 1px solid;
-    justify-content: left;
+    justify-content: center;
 
-}
+}*/
 
 
 .form_wrapper .form_input {

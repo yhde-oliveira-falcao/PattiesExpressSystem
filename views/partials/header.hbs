@@ -1,17 +1,3 @@
-        <!--header>            
-            <img width="100%" src="/images2/pattiesexpress.png" alt="Patties Express" />
-            <p class="borderlessheader">
-            {{#if username}}
-                Welcome <em>{{username}}</em>! | <a href="/Profile">Profile</a> | <a href="/logout">logout</a>
-            {{else}}
-                myaccount: <a href="/login">login</a>
-            {{/if}}
-            </p>
-        </header-->
-
-
-         
-
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -32,14 +18,10 @@
 			<p></p>
 			<div class="navbar_items">
 				<ul>
-					<li><a href="/">HOME</a></li>
-					<!--li><a href="/index">ROOMS</a></li-->
                     {{#if username}}
-					<li> {{username}} <a href="/Profile">PROFILE</a></li>
+                    <li><a href="/report">REPORTS</a></li>
+					<li> {{username}} <a href="/Profile">PROFILE</a></li> 
                     <li><a href="/logout">LOGOUT</a></li>
-                    {{else}}
-                    <!--li><a href="/register">REGISTRATION</a></li-->
-                    <!--li><a href="/login">LOGIN</a></li-->
                     {{/if}}
 				
 				</ul>

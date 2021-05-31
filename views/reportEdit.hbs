@@ -7,10 +7,10 @@
 
 </head>
 
-<body class="about">
     {{> header user}}
+    <div class="reportEditor">
     <h1>Report Editor</h1><br><br>
-    <form  method="POST" action="/report/Edit">
+    <form  class="contactus" id="contactus" method="POST" action="/report/Edit">
         {{#if report._id}}
             <input type="hidden" name="ID" value="{{report._id}}" />
             <input type="date" name="edit" value="1" />
@@ -57,7 +57,7 @@
         <label class="fixedlabel"></label>
         <button class="button1" type="submit" name="submit">Submit</button><br><br>
     </form>
-
+</div>
     {{> footer user}}
 </body>
 </html>

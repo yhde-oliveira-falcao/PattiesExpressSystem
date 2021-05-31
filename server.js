@@ -1,4 +1,4 @@
-process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0; //SUPER TEMPORARY FIX!!! VERY DANGEROUS
+//process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0; //SUPER TEMPORARY FIX!!! VERY DANGEROUS
 // CHECK: https://github.com/nodemailer/nodemailer/issues/406#issuecomment-83941225
 // https://stackoverflow.com/questions/46742402/error-self-signed-certificate-in-certificate-chain-nodejs-nodemailer-express
 //https://windowsreport.com/self-signed-certificate-error/
@@ -58,11 +58,17 @@ app.use(clientSessions({
 app.use(bodyParser.urlencoded({extended: false }));
 
 var transporter = nodemailer.createTransport({
+    host: "gmail.com",
+    secure: false,
+    port: 25,
     service: 'gmail',
     auth: {
         user: 'reportsendPatties@gmail.com',      
-        pass: 'PattiesReport'
+        pass: 'Patties@Report123'
     },
+    tls: {
+        rejectUnauthorized: false
+    }
 });
 
 /* #endregion */
@@ -112,7 +118,7 @@ app.post("/login", (req, res) => {
                         lastName: usr.lastName,
                         isAdmin: usr.isAdmin
                     };
-                    res.redirect("/report");
+                    res.redirect("/report/Edit");
                 } else {
                     res.render("login", {errorMsg: "login and password does not match!", layout: false});
                 };
