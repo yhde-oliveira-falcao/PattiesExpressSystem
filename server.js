@@ -1,8 +1,3 @@
-//process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0; //SUPER TEMPORARY FIX!!! VERY DANGEROUS
-// CHECK: https://github.com/nodemailer/nodemailer/issues/406#issuecomment-83941225
-// https://stackoverflow.com/questions/46742402/error-self-signed-certificate-in-certificate-chain-nodejs-nodemailer-express
-//https://windowsreport.com/self-signed-certificate-error/
-
 /* #region REQUIRES */
 var express = require("express");
 var app = express();
@@ -15,7 +10,7 @@ var nodemailer = require("nodemailer");
 require("dotenv").config({ path: ".env" }); 
 
 
-const config = require("./js/config");
+//const config = require("./js/config");
 
 const ReportModel = require("./models/reportModel");
 const UserModel = require("./models/userModel");

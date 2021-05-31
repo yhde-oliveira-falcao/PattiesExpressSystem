@@ -1,4 +1,5 @@
 .env
 node_modules/
 js/config.js
-
+toDo.txt
+IMPORTANT_NOTES.txt

@@ -1,1 +1,3 @@
-1. Add server security< check: https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Website_security
+bduser = reportDB
+dbpassword = cl4HtLQBL1U3kT7N
+mongodb+srv://reportDB:cl4HtLQBL1U3kT7N@reportcluster0.ckpcl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
