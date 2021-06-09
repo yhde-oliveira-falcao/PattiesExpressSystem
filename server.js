@@ -254,11 +254,11 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
         "\nTips: " + req.body.Tips +  
         "\n\nDrinks: " +  req.body.Drinks +  
         "\n\nExtras: " + req.body.Extras +
-        "\n\n This is a test of the Inventory Management web application \nThank you so much and have a great night" 
+        "\n\n This is a test of Patties Express Inventory Management web application \n\nThank you so much and have a great night" 
     }
 
       client.messages.create({
-          to: '+14379873171', //to: '+16478484848'
+          to: '+16478353811', //to: '+16478484848'
           from: '+12895122327',
           body: smsMessage.body
      })
