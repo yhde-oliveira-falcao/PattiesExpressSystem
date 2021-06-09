@@ -243,17 +243,18 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
     var smsMessage = {
         
         body: "Date: " + req.body.ID + 
-        "\nX: " + req.body.X +  
+        "\n\nX: " + req.body.X +  
         "\nR: " + req.body.R +  
         "\nNS: " + req.body.NS +  
         "\nC: " + req.body.C + 
         "\nV: " + req.body.V +  
-        "\nCocobread: " + req.body.Cocobread +  
+        "\n\nCocobread: " + req.body.Cocobread +  
         "\nCash: " + req.body.Cash + 
         "\nDebit: " + req.body.Debit +  
         "\nTips: " + req.body.Tips +  
-        "\nDrinks: " +  req.body.Drinks +  
-        "\nExtras: " + req.body.Extras  
+        "\n\nDrinks: " +  req.body.Drinks +  
+        "\n\nExtras: " + req.body.Extras +
+        "\n\n This is a test of the Inventory Management web application \nThank you so much and have a great night" 
     }
 
       client.messages.create({
