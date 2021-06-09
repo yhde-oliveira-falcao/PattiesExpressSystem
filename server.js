@@ -13,7 +13,10 @@ require("dotenv").config({ path: ".env" });
 // const AuthToken = process.env.TWILIO_AUTH_TOKEN;
 // const client = require('twilio')(accountSid, AuthToken);
 
+var twilio = require('twilio');
 
+// Find your account sid and auth token in your Twilio account Console.
+var client = new twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 //const config = require("./js/config");
 
 const ReportModel = require("./models/reportModel");
@@ -237,11 +240,11 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
         
     }
 
-    // client.messages.create({
-    //     to: '+16478353811', //to: '+16478484848'
-    //     from: '+12895122327',
-    //     body: 'hi'
-    // })
+     client.messages.create({
+         to: '+16478353811', //to: '+16478484848'
+         from: '+12895122327',
+         body: 'hi'
+     })
 
     transporter.sendMail(mailOptions, (error, info) => {
         if (error){
