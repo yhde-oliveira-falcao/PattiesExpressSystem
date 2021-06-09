@@ -240,10 +240,26 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
         
     }
 
+    var smsMessage = {
+        
+        body: "Date: " + req.body.ID + 
+        "X: " + req.body.X +  +
+        "R: " + req.body.R +  +
+        "NS: " + req.body.NS +  +
+        "C: " + req.body.C + +
+        "V: " + req.body.V +  +
+        "Cocobread: " + req.body.Cocobread +  +
+        "Cash: " + req.body.Cash +  +
+        "Debit: " + req.body.Debit +  +
+        "Tips: " + req.body.Tips +  +
+        "Drinks: " +  req.body.Drinks +  +
+        "Extras: " + req.body.Extras  
+    }
+
       client.messages.create({
           to: '+14379873171', //to: '+16478484848'
           from: '+12895122327',
-          body: mailOptions.html
+          body: smsMessage.body
      })
 
     transporter.sendMail(mailOptions, (error, info) => {
