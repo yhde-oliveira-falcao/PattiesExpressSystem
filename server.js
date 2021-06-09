@@ -9,14 +9,14 @@ const mongoose = require("mongoose");
 var nodemailer = require("nodemailer");
 require("dotenv").config({ path: ".env" }); 
 
-// const accountSid = process.env.TWILIO_ACCOUNT_SID;
-// const AuthToken = process.env.TWILIO_AUTH_TOKEN;
+ const accountSid = process.env.TWILIO_ACCOUNT_SID;
+ const AuthToken = process.env.TWILIO_AUTH_TOKEN;
 // const client = require('twilio')(accountSid, AuthToken);
 
 var twilio = require('twilio');
 
 // Find your account sid and auth token in your Twilio account Console.
-var client = new twilio(process.env.twilioUserSid, process.env.twilioAuthToken);
+var client = new twilio(TWILIO_AUTH_TOKEN, AuthToken);
 //const config = require("./js/config");
 
 const ReportModel = require("./models/reportModel");
