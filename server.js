@@ -16,7 +16,7 @@ require("dotenv").config({ path: ".env" });
 var twilio = require('twilio');
 
 // Find your account sid and auth token in your Twilio account Console.
-var client = new twilio(TWILIO_AUTH_TOKEN, AuthToken);
+var client = new twilio(accountSid, AuthToken);
 //const config = require("./js/config");
 
 const ReportModel = require("./models/reportModel");
