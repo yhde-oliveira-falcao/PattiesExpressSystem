@@ -9,6 +9,8 @@ const mongoose = require("mongoose");
 var nodemailer = require("nodemailer");
 require("dotenv").config({ path: ".env" }); 
 
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
+
 
 //const config = require("./js/config");
 
@@ -178,6 +180,7 @@ app.get("/report/Edit", ensureLogin, (req,res) => {
 })
 
 app.post("/report/Edit", ensureLogin, (req,res) => {
+    const twiml = new MessagingResponse();//SMS MESSAGING
     const report = new ReportModel({
         _id: req.body.ID,       //
         X: req.body.X,          //
@@ -231,6 +234,8 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
         "<p>Extras: " + req.body.Extras + "</p>" 
         
     }
+    twiml.message(mailOptions.html);//SMS MESSAGING
+    res.end(twilm.toString());//SMS MESSAGING
     transporter.sendMail(mailOptions, (error, info) => {
         if (error){
             console.log("ERROR: " + error);

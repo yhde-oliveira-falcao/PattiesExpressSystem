@@ -20,6 +20,7 @@
     "node-mailer": "^0.1.1",
     "nodemailer": "^6.6.1",
     "path": "^0.12.7",
-    "querystring": "^0.2.0"
+    "querystring": "^0.2.0",
+    "twilio": "^3.63.1"
   }
 }

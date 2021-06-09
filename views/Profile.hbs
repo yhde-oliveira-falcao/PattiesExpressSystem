@@ -8,7 +8,9 @@
 </head>
 
 <body>
+  
     {{> header user}}
+  <div class="contactus" id="contactus">
     <h1>User Profile: {{user.username}}</h1>
     <label class="fixedlabel">User Name:</label>{{user.username}}<br/>
     <label class="fixedlabel">First Name:</label>{{user.firstName}}<br/>
@@ -16,6 +18,8 @@
     <label class="fixedlabel">E-mail:</label>{{user.email}}<br/>
     <label class="fixedlabel">Is Administrator:</label>{{user.isAdmin}}<br/>
     <a href="/Profile/Edit">Edit</a>
+  </div>
     {{> footer user}}
+ 
 </body> 
 </html> 
