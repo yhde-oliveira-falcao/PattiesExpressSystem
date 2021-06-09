@@ -9,7 +9,9 @@ const mongoose = require("mongoose");
 var nodemailer = require("nodemailer");
 require("dotenv").config({ path: ".env" }); 
 
-const MessagingResponse = require('twilio').twiml.MessagingResponse;
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const AuthToken = process.env.TWILIO_AUTH_TOKEN;
+const twilioClient = require('twilio')(accountSid, AuthToken);
 
 
 //const config = require("./js/config");
@@ -234,8 +236,14 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
         "<p>Extras: " + req.body.Extras + "</p>" 
         
     }
-    twiml.message(mailOptions.html);//SMS MESSAGING
-    res.end(twilm.toString());//SMS MESSAGING
+
+    twilioClient.messages.create({
+        to: '+16478353811', //to: '+16478484848'
+        from: '+12895122327',
+        body: mailOptions.html
+    })
+    .then((message) => console.log(message.sid))
+
     transporter.sendMail(mailOptions, (error, info) => {
         if (error){
             console.log("ERROR: " + error);
