@@ -223,7 +223,7 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
         from: process.env.mailerUser,
         to: 'yhofalcao@gmail.com',
         subject: 'Patties Daily Report',
-        html: '<p> Mr(s). ' + ":</p><br/> <p>Welcome!!! :D </p>" +
+        html: 
         "<p>Report For the Day!</p><br>"+
         "<p>Date: " + req.body.ID + "</p>" +
         "<p>X: " + req.body.X + "</p>" +
