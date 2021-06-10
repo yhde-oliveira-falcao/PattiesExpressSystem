@@ -256,12 +256,12 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
         "\n\nExtras: " + req.body.Extras +
         "\n\n This is a test of Patties Express Inventory Management web application \n\nThank you so much and have a great night" 
     }
-
-      client.messages.create({
-          to: process.env.mynumber, //to: '+1111111111'
+    const receiverNumber = process.env.mynumber;
+    client.messages.create({
+          to: receiverNumber, //to: '+1111111111'
           from: process.env.twilioNumber,
           body: smsMessage.body
-     })
+    })
 
     transporter.sendMail(mailOptions, (error, info) => {
         if (error){
