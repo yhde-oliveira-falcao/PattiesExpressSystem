@@ -11,7 +11,7 @@ require("dotenv").config({ path: ".env" });
 
  const accountSid = process.env.TWILIO_ACCOUNT_SID;
  const AuthToken = process.env.TWILIO_AUTH_TOKEN;
- const receiverNumber = process.env.mynumber;
+ const receiverNumber = process.env.arenumber;
  const senderNumber = process.env.twilioNumber;
 
 // const client = require('twilio')(accountSid, AuthToken);
@@ -244,7 +244,6 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
     }
 
     var smsMessage = {
-        
         body: "Date: " + req.body.ID + 
         "\n\nX: " + req.body.X +  
         "\nR: " + req.body.R +  
@@ -259,8 +258,9 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
         "\n\nExtras: " + req.body.Extras +
         "\n\n This is a test of Patties Express Inventory Management web application \n\nThank you so much and have a great night" 
     }
+
     client.messages.create({
-          to: receiverNumber, //to: '+1111111111'
+          to: receiverNumber, //to: '+12223333444'
           from: senderNumber,
           body: smsMessage.body
     })
