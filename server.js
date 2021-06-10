@@ -12,6 +12,7 @@ require("dotenv").config({ path: ".env" });
  const accountSid = process.env.TWILIO_ACCOUNT_SID;
  const AuthToken = process.env.TWILIO_AUTH_TOKEN;
  const receiverNumber = process.env.mynumber;
+ const senderNumber = process.env.twilioNumber;
 
 // const client = require('twilio')(accountSid, AuthToken);
 
@@ -260,7 +261,7 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
     }
     client.messages.create({
           to: receiverNumber, //to: '+1111111111'
-          from: '+12895122327',
+          from: senderNumber,
           body: smsMessage.body
     })
 
