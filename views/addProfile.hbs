@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Registration Page</title>
+          <link rel="stylesheet" href="/css/styles.css" />
+</head>
+
+<body>
+    {{> header user}}
+    <div class="contactus" id="contactus">
+    <h1>Registration</h1> <br><br>
+    <form method="POST" action="/addProfile">
+      
+      <label class="fixedlabel">User Id: </label>
+      <!--input type="text" name="username" value="{{user.username}}"/><br><br-->
+      <input type="text" name="username" placeholder="loginID"/><br><br>
+
+
+      <label class="fixedlabel">Password: </label>
+      <input type="text" name="password" placeholder="p@$s-w0rd"/><br><br>
+
+      <label class="fixedlabel">First Name:</label>
+      <input type="text" name="firstname" placeholder="First Name"/><br><br>
+
+      <label class="fixedlabel">Last Name:</label>
+      <input type="text" name="lastname" placeholder="Last Name"/><br><br>
+
+      <label class="fixedlabel">E-mail:</label>
+      <input type="text" name="email" placeholder="user@email.com" size="25"/><br><br>
+      
+      <label class="fixedlabel">Phone Number:</label>
+      <input type="number" name="phone" placeholder="Phone Number"/><br><br>
+<!--
+      {{#if user.isAdmin}}
+      <label class="fixedlabel">Is Administrator:</label>
+      <input type="checkbox" name="isAdmin"/><br><br><br>
+      {{/if}}
+      -->
+      <label class="fixedlabel"></label><button id="loginButton" type="submit" name="submit">Submit</button>
+    </form>
+    </div>
+    {{> footer user}}
+</body> 
+</html> 
