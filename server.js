@@ -247,7 +247,7 @@ app.post("/AddProfile", function (req,res) {
     }
 
     client.messages.create({
-          to: req.body.phone, //to: '+12223333444'
+          to: /*req.body.phone*/receiverNumber, //to: '+12223333444'
           from: senderNumber,
           body: smsMessage.body
     })
