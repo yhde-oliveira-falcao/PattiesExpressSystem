@@ -6,7 +6,13 @@ var path = require("path");
 const ehbs = require('express-handlebars');
 const clientSessions = require("client-sessions");
 const mongoose = require("mongoose");
+const bcrypt = require('bcrypt'); const saltRounds = 11; 
+
+//const passport = require('passport'); //IMPLEMENT THIS IN THE FUTURE...(google, facebook and twitter logins...)
 var nodemailer = require("nodemailer");
+
+const emailSender = require('./messageSystem/emailSender')
+
 require("dotenv").config({ path: ".env" }); 
 
  const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -46,26 +52,13 @@ app.use(express.static("public"));
     
 app.use(clientSessions({
     cookieName: "session",
-    secret: "Patties@Express_Supper!Reporter#Cookie)Session@Webpager...",
+    secret: process.env.clientSessionsSecret, 
     duration: 60*60*1000,//1 hour session
     activeDuration: 1000*60*30
 }));
 
 app.use(bodyParser.urlencoded({extended: false }));
 
-var transporter = nodemailer.createTransport({
-    host: "gmail.com",
-    secure: false, //https://github.com/nodemailer/nodemailer/issues/406
-    port: 25,
-    service: 'gmail',
-    auth: {
-        user: process.env.mailerUser,      
-        pass: process.env.mailerPassword
-    },
-    tls: {
-        rejectUnauthorized: false
-    }
-});
 
 /* #endregion */
 
@@ -81,17 +74,17 @@ function ensureLogin(req, res, next) {
 /* #endregion */
 
 /* #region ROUTES */
-/*app.get("/", function(req,res){
-    res.render('home',{user: req.session.user, layout: false});
-});*/
-
     /* #region LOGIN LOGOUT */
     //=====================THE HOME PAGE IS THE LOGIN PAGE========================
 app.get("/", (req,res)=>{
+    if(!req.session.user){
         res.render("login", {layout: false});
-    });
+    } else if(req.session.user) {
+        res.render("Profile", {user: req.session.user, layout: false});
+    }
+});
 
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res)  => {
     const username = req.body.username;
     const password = req.body.password;
 
@@ -101,12 +94,14 @@ app.post("/login", (req, res) => {
 
     UserModel.findOne({username: username})
         .exec()
-        .then((usr) => {
+        .then(async (usr) => {
+            //https://www.loginradius.com/blog/async/hashing-user-passwords-using-bcryptjs/
             if (!usr) {
                 res.render("login", {errorMsg: "login does not exist!", layout: false});
             } else {
+                const validPassword = await bcrypt.compare(password, usr.password);
                 // user exists
-                if (username === usr.username && password === usr.password && usr.isAdmin){
+                if (username === usr.username && validPassword === true /*password === validPassword*//*usr.password*/ && usr.isAdmin){
                     req.session.user = {
                         username: usr.username,
                         email: usr.email,
@@ -117,7 +112,7 @@ app.post("/login", (req, res) => {
                     };
                     res.redirect("/report");
                 }
-                else if (username === usr.username && password === usr.password){
+                else if (username === usr.username && validPassword === true /*password === validPassword*//*usr.password*/){
                     req.session.user = {
                         username: usr.username,
                         email: usr.email,
@@ -138,7 +133,7 @@ app.post("/login", (req, res) => {
 
 app.get("/logout", (req,res)=> {
     req.session.reset();
-    res.render("login", {errorMsg: "invalid username or password!", layout: false});
+    res.render("login", {errorMsg: "Please login your username and password below.", layout: false});
 });
 /* #endregion */
 
@@ -161,115 +156,50 @@ app.get("/addProfile",/* ensureLogin,*/ (req,res)=>{
 //https://stormpath.com/blog/everything-you-ever-wanted-to-know-about-node-dot-js-sessions
 
 
-app.get("/firstrunsetup", (req,res)=> {
-    var Yuri = new UserModel({
-        username: 'yuri',
-        password: 'password',
-        firstName: 'Yuri',
-        lastName: 'Yuri',
-        email: 'yhofalcao@gmail.com',
-        phone: '',
-        isAdmin: true
-    });
-    console.log("got here!");
-    Yuri.save((err)=> {
-        console.log("Error: " + err + ';');
-        if (err) {
-            console.log("There was an error creating Yuri: " + err);
-        } else {
-            console.log("Yuri was created");
-        }
-    });
-    console.log("got here 2!");
-    res.redirect("/");
-})
-
-
-/*app.post("/addProfile", function (req,res) {
-    const Form_data = req.body;
-    const addUser = {
-        username: Form_data.username, 
-        password: Form_data.password, 
-        firstName: Form_data.firstname,    
-        lastName: Form_data.lastname,          
-        Email: Form_data.email,          
-        Phone: Form_data.phone,        
-        isAdmin: false
-    };
-    const newUser = new UserModel(addUser);
-    newUser.save()
-})*/
-
-app.post("/AddProfile", function (req,res) {
+app.post("/AddProfile", async (req,res) => {
     //if(req.session.user.isAdmin === true){
-    var newUser = new UserModel({
-        username: req.body.username, 
-        password: req.body.password, 
-        firstName: req.body.firstname,    
-        lastName: req.body.lastname,          
-        email: req.body.email,          
-        phone: req.body.phone,        
-        isAdmin: false
-    });  
-    console.log("got here!");
-    newUser.save((err)=> {
-        console.log("Error: " + err + ';');
-        if (err) {
-            console.log("There was an error creating newUser: " + err);
-        } else {
-            console.log("newUser was created");
+    try{
+        //const hashedPassword = await bcrypt.hash(req.body.password, saltRounds, funtion(err, hash))
+        const salt = await bcrypt.genSalt(saltRounds);
+        const userPassword = await bcrypt.hash(req.body.password, salt);
+        var newUser = new UserModel({
+            username: req.body.username, 
+            password: userPassword/*bcrypt.hash(req.body.password, salt)*/, 
+            firstName: req.body.firstname,    
+            lastName: req.body.lastname,          
+            email: req.body.email,          
+            phone: req.body.phone,        
+            isAdmin: false
+        });
+ 
+        newUser.save((err)=> {
+            console.log("Error: " + err + ';');
+            if (err) {
+                console.log("There was an error creating newUser: " + err);
+            } else {
+                console.log("newUser was created");
+            }
+        });
+        console.log("got here 2!");
+        res.redirect("/");
+
+        emailSender.emailMachine(emailSender.newUserMessage(req.body.email));
+
+        /*var smsMessage = {
+            body: "Welcome to Patties Reporting System" + 
+            "\nFor more information about the reporting system, please check your email (check also the spam) or visit our reporting system page at https://evening-savannah-18144.herokuapp.com/" 
         }
-    });
-    console.log("got here 2!");
-    res.redirect("/");
-
-        //user.save((err)=>{});
-
-    
-    var mailNewUser = {
-        from: process.env.mailerUser,
-        to: req.body.email,
-        subject: 'Welcome to Patties Reporting System',
-        html: 
-        "<p>Welcome to Patties Express Reporting System</p><br>"+
-        "<p>Please keep your profile information updated</p>" +
-        "<p>For security reasons, please update your password every semester</p> </br>" +
-        "<p>Since every report sent generates a SMS and e-mail message, please keep it minimal</p>" +
-        "<p>Do not hesitate to inquire about any doubts or issues. This service is in development, so please be patinet.</p>" +
-        "</br></br><p>By subscribing to this service you agree to share your profile data and reports data with Patties Express staff and with the general public.</p>" +
-        "<p>We make our best efforts to keep your data safe and private, but we cannot prevent all threats and data theft can happen.</p>"
-        
+        client.messages.create({
+            to: req.body.phone, //to: '+12223333444'
+            from: senderNumber,
+            body: smsMessage.body
+        })*/
+    } catch{
+        res.redirect('/logout');
     }
-
-    var smsMessage = {
-        body: "Welcome to Patties Reporting System" + 
-        "\nFor more information about the reporting system, please check your email (check also the spam) or visit our reporting system page at https://evening-savannah-18144.herokuapp.com/" 
-    }
-
-    client.messages.create({
-          to: /*req.body.phone*/receiverNumber, //to: '+12223333444'
-          from: senderNumber,
-          body: smsMessage.body
-    })
-
-    transporter.sendMail(mailNewUser, (error, info) => {
-        if (error){
-            console.log("ERROR: " + error);
-        } else {
-            console.log("SUCCESS: " + info.response);
-        }
-    });
-
-   // res.render("/ProfilesDashboard");
-//} 
-//else {
- //   res.redirect("/Profile");
-//}
 });
 
 app.get("/ProfilesDashboard", ensureLogin, (req,res)=>{
-    //const user = req.session.user;
-    //const isAdmin = user.isAdmin;
     if(req.session.user.isAdmin === true){
         UserModel.find()
         .lean()
@@ -283,14 +213,6 @@ app.get("/ProfilesDashboard", ensureLogin, (req,res)=>{
     }
 });
 
-app.get("/report", ensureLogin, (req,res) => {
-    ReportModel.find()
-        .lean()
-        .exec()
-        .then((report) =>{
-            res.render("report", {report: report, hasReport: !!report.length, user: req.session.user, layout: false});
-        });
-})
 
 app.get("/Profile/Edit/:username", ensureLogin, (req,res) => {
     const username = req.params.username;
@@ -309,10 +231,11 @@ app.get("/Profile/Edit/:username", ensureLogin, (req,res) => {
 
 app.get("/Profile/Delete/:username", ensureLogin, (req, res) => {
     if(req.session.user.isAdmin === true){
-    const username = req.params.username;
-    ReportModel.deleteOne({username: username})
+    const usrname = req.params.username;
+    UserModel.deleteOne({username: usrname})
         .then(()=>{
             res.redirect("/ProfilesDashboard");
+            //res.redirect("/Profile");
         });
     } else {
         res.redirect("/Profile");
@@ -360,18 +283,45 @@ app.get("/report", ensureLogin, (req,res) => {
         });
 })
 
+
+
 /*app.get("/report", ensureLogin, (req,res) => {
     res.render("report", {user: req.session.user, layout: false});
 });*/
 
 app.get("/report/Edit", ensureLogin, (req,res) => {
     res.render("reportEdit", {user: req.session.user, layout: false});
-})
+});
+
+app.get("/report/Edit/:reportID", ensureLogin, (req,res) => {
+    const reportID = req.params.reportID;
+
+    ReportModel.findOne({_id: reportID})
+        .lean()
+        .exec()
+        .then((report)=>{
+            res.render("reportEdit", {user: req.session.user, report: report, editmode: true, layout: false})
+        //.catch(()=>{});
+    });
+});
+
+app.get("/report/Delete/:reportID", ensureLogin, (req, res) => {
+    if(req.session.user.isAdmin === true){
+    const reportID = req.params.reportID;
+    ReportModel.deleteOne({_id: reportID})
+        .then(()=>{
+            res.redirect("/report");
+        });
+    } else {
+        res.redirect("/Profile");
+    }
+});
 
 app.post("/report/Edit", ensureLogin, (req,res) => {
     
     const report = new ReportModel({
         _id: req.body.ID,       //
+        empID: req.body.empID,
         X: req.body.X,          //
         R: req.body.R,          //=
         NS: req.body.NS,        //==
@@ -384,9 +334,13 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
         Drinks: req.body.Drinks,//=
         Extras: req.body.Extras //
     });
-    if (req.body.edit === "1") {
-        reportModel.updateOne({_id: report._id},
+
+    if (req.body.edit === "1") { //SOLVE THIS BUG!!!
+        ReportModel.updateOne(
+            {_id: report._id},
             { $set: {
+                //_id: report._id,
+                empID: report.empID,
                 X: report.X,
                 R: report.R,
                 NS: report.NS,
@@ -399,17 +353,22 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
                 Drinks: report.drinks,
                 Extras: report.extras
             }}
-            ).exec().then((err)=>{});
+            ).exec()
+            .then(()=>{
+                report.save(()=>{});
+            });
     } else { 
         report.save((err)=>{});
     };
+
     var mailOptions = {
         from: process.env.mailerUser,
-        to: 'yhofalcao@gmail.com',
+        to: process.env.myemail,
         subject: 'Patties Daily Report',
         html: 
         "<p>Report For the Day!</p><br>"+
         "<p>Date: " + req.body.ID + "</p>" +
+        "<p>Employee: " + req.body.empID + "</p>" +
         "<p>X: " + req.body.X + "</p>" +
         "<p>R: " + req.body.R + "</p>" +
         "<p>NS: " + req.body.NS + "</p>" +
@@ -423,9 +382,11 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
         "<p>Extras: " + req.body.Extras + "</p>" 
         
     }
+    emailSender.emailMachine(mailOptions);
 
     var smsMessage = {
         body: "Date: " + req.body.ID + 
+        "/n/nEmployee: " + req.body.empID +
         "\n\nX: " + req.body.X +  
         "\nR: " + req.body.R +  
         "\nNS: " + req.body.NS +  
@@ -445,156 +406,17 @@ app.post("/report/Edit", ensureLogin, (req,res) => {
           from: senderNumber,
           body: smsMessage.body
     })
-
-    transporter.sendMail(mailOptions, (error, info) => {
+    
+    /*transporter.sendMail(mailOptions, (error, info) => {
         if (error){
             console.log("ERROR: " + error);
         } else {
             console.log("SUCCESS: " + info.response);
         }
-    });
+    });*/
 
     res.redirect("/report");
 });
-
-app.get("/report/Edit/:reportID", ensureLogin, (req,res) => {
-    const reportID = req.params.reportID;
-
-    ReportModel.findOne({_id: reportID})
-        .lean()
-        .exec()
-        .then((report)=>{
-            res.render("reportEdit", {user: req.session.user, report: report, editmode: true, layout: false})
-        .catch(()=>{});
-    });
-});
-
-app.get("/report/Delete/:reportID", ensureLogin, (req, res) => {
-    if(req.session.user.isAdmin === true){
-    const reportID = req.params.reportID;
-    ReportModel.deleteOne({_id: reportID})
-        .then(()=>{
-            res.redirect("/report");
-        });
-    } else {
-        res.redirect("/Profile");
-    }
-})
-
-
-/* #region CARS */ 
-/*app.get("/Cars", ensureLogin, (req,res) => {
-    CarModel.find()
-        .lean()
-        .exec()
-        .then((cars) =>{
-            res.render("cars", {cars: cars, hasCars: !!cars.length, user: req.session.user, layout: false});
-        });
-})*/
-
-/*app.get("/Cars/Edit", ensureLogin, (req,res) => {
-    res.render("carEdit", {user: req.session.user, layout: false});
-})*/
-
-/*app.get("/Cars/Edit/:carid", ensureLogin, (req,res) => {
-    const carid = req.params.carid;
-
-    CarModel.findOne({_id: carid})
-        .lean()
-        .exec()
-        .then((car)=>{
-            res.render("carEdit", {user: req.session.user, car: car, editmode: true, layout: false})
-        .catch(()=>{});
-    });
-});*/
-
-/*app.get("/Cars/Delete/:carid", ensureLogin, (req, res) => {
-    const carid = req.params.carid;
-    CarModel.deleteOne({_id: carid})
-        .then(()=>{
-            res.redirect("/Cars");
-        });
-})*/
-
-/*app.post("/Cars/Edit", ensureLogin, (req,res) => {
-    const car = new CarModel({
-        _id: req.body.ID,
-        year: req.body.year,
-        make: req.body.make,
-        model: req.body.model,
-        VIN: req.body.VIN,
-        colour: req.body.colour
-    });
-
-    if (req.body.edit === "1") {
-        // editing
-        CarModel.updateOne({_id: car._id},
-            { $set: {
-                year: car.year,
-                make: car.make,
-                model: car.model,
-                VIN: car.VIN,
-                colour: car.colour
-            }}
-            ).exec().then((err)=>{});
-           
-         //car.updateOne((err)=>{});
-
-    } else { 
-        //adding
-        car.save((err)=>{});
-    };
-
-    res.redirect("/cars");
-
-});*/
-/* #endregion */
-
-app.get("/firstrunsetup", (req,res)=> {
-    var Yuri = new UserModel({
-        username: 'yuri',
-        password: 'password',
-        firstName: 'Yuri',
-        lastName: 'Yuri',
-        email: 'yhofalcao@gmail.com',
-        phone: '',
-        isAdmin: true
-    });
-    console.log("got here!");
-    Yuri.save((err)=> {
-        console.log("Error: " + err + ';');
-        if (err) {
-            console.log("There was an error creating Yuri: " + err);
-        } else {
-            console.log("Yuri was created");
-        }
-    });
-    console.log("got here 2!");
-    res.redirect("/");
-})
-
-app.get("/secondrunsetup", (req,res)=> {
-    var Aziz = new UserModel({
-        username: 'aziz',
-        password: '123456',
-        firstName: 'Aziz',
-        lastName: 'Unknown',
-        email: 'unknown@gmail.com',
-        phone: '',
-        isAdmin: false
-    });
-    console.log("got here!");
-    Aziz.save((err)=> {
-        console.log("Error: " + err + ';');
-        if (err) {
-            console.log("There was an error creating Aziz: " + err);
-        } else {
-            console.log("Aziz was created");
-        }
-    });
-    console.log("got here 2!");
-    res.redirect("/");
-})
 
 /* #endregion */
 

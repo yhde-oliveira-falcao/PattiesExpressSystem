@@ -11,6 +11,7 @@ const reportSchema = new Schema({
     "_id": {
         type: String
     },
+    "empID": String,
     "X": Number,
     "R": Number,
     "NS": Number,

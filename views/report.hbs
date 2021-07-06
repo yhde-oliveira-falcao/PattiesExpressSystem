@@ -9,17 +9,21 @@
 <body>
     {{> header user}}
     <div class="contactus" id="contactus">
-    <h1>Reports</h1>
-    <p><a href="/report/Edit">Add New Report</a></p>
+
+    <h3><a href="/report/Edit">Add New Report</a></h3> <br>
+    <h1>Reports</h1><br>
+    <!--p><a href="/report/Edit">Add New Report</a></p-->
     {{#if hasReport}}
     <table border="1">
       
     <thead>
 
       <tr>
-        <td>&nbsp;</td>{{#each report}}<td><a href="/report/Edit/{{_id}}">Edit</a></td> {{/each}}</tr>
+        <!--td>&nbsp;</td>{{#each report}}<td><a href="/report/Edit/{{_id}}">Edit</a></td> {{/each}}</tr-->
 
-        <tr></tr><th>ID</th>{{#each report}} <td>{{@index}}: {{_id}}</td> {{/each}}</tr> 
+        <!--tr></tr><th>ID</th>{{#each report}} <td>{{@index}}: {{_id}}</td> {{/each}}</tr-->
+        <tr></tr><th>ID</th>{{#each report}} <td> {{_id}}</td> {{/each}}</tr> 
+        <tr></tr><th>Employee</th>{{#each report}} <td>{{empID}}</td> {{/each}}</tr>
         <tr></tr><th>X</th>{{#each report}} <td>{{X}}</td> {{/each}}</tr> 
         <tr></tr><th>R</th>{{#each report}}  <td>{{R}}</td>{{/each}} </tr> 
         <tr><th>NS</th>{{#each report}} <td>{{NS}}</td> {{/each}}</tr> 
