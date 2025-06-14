@@ -40,7 +40,11 @@ app.set('view engine', '.hbs');
 
 var HTTP_PORT = process.env.PORT || 8080;
 
+<<<<<<< HEAD
 mongoose.connect(process.env.dbconn, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true} )
+=======
+mongoose.connect(process.env.dbconn/*, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true}*/ ) //all of this is deprecated
+>>>>>>> local-backup
 
 
 function onHttpStart() {
@@ -156,7 +160,11 @@ app.get("/addProfile",/* ensureLogin,*/ (req,res)=>{
 //https://stormpath.com/blog/everything-you-ever-wanted-to-know-about-node-dot-js-sessions
 
 
+<<<<<<< HEAD
 app.post("/AddProfile", async (req,res) => {
+=======
+/*app.post("/AddProfile", async (req,res) => {
+>>>>>>> local-backup
     //if(req.session.user.isAdmin === true){
     try{
         //const hashedPassword = await bcrypt.hash(req.body.password, saltRounds, funtion(err, hash))
@@ -164,7 +172,11 @@ app.post("/AddProfile", async (req,res) => {
         const userPassword = await bcrypt.hash(req.body.password, salt);
         var newUser = new UserModel({
             username: req.body.username, 
+<<<<<<< HEAD
             password: userPassword/*bcrypt.hash(req.body.password, salt)*/, 
+=======
+            password: userPassword//bcrypt.hash(req.body.password, salt), 
+>>>>>>> local-backup
             firstName: req.body.firstname,    
             lastName: req.body.lastname,          
             email: req.body.email,          
@@ -185,7 +197,11 @@ app.post("/AddProfile", async (req,res) => {
 
         emailSender.emailMachine(emailSender.newUserMessage(req.body.email));
 
+<<<<<<< HEAD
         /*var smsMessage = {
+=======
+        //var smsMessage = {
+>>>>>>> local-backup
             body: "Welcome to Patties Reporting System" + 
             "\nFor more information about the reporting system, please check your email (check also the spam) or visit our reporting system page at https://evening-savannah-18144.herokuapp.com/" 
         }
@@ -193,10 +209,59 @@ app.post("/AddProfile", async (req,res) => {
             to: req.body.phone, //to: '+12223333444'
             from: senderNumber,
             body: smsMessage.body
+<<<<<<< HEAD
         })*/
     } catch{
         res.redirect('/logout');
     }
+=======
+        })
+    } catch{
+        res.redirect('/logout');
+    }
+});*/
+app.post("/AddProfile", async (req, res) => {
+    try {
+        const salt = await bcrypt.genSalt(saltRounds);
+        const userPassword = await bcrypt.hash(req.body.password, salt);
+
+        const newUser = new UserModel({
+            username: req.body.username,
+            password: userPassword,
+            firstName: req.body.firstname,
+            lastName: req.body.lastname,
+            email: req.body.email,
+            phone: req.body.phone,
+            isAdmin: false
+        });
+
+        await newUser.save();
+        console.log("✅ newUser was created");
+
+        emailSender.emailMachine(emailSender.newUserMessage(req.body.email));
+
+        // Optional: uncomment if you want to send SMS too
+        /*
+        const smsMessage = {
+            body: "Welcome to Patties Reporting System\n" +
+                  "For more information about the reporting system, check your email (also check the spam folder) " +
+                  "or visit https://evening-savannah-18144.herokuapp.com/"
+        };
+
+        await client.messages.create({
+            to: req.body.phone,
+            from: senderNumber,
+            body: smsMessage.body
+        });
+        */
+
+        res.redirect("/");
+
+    } catch (err) {
+        console.error("❌ Error during user registration:", err);
+        res.redirect('/logout');
+    }
+>>>>>>> local-backup
 });
 
 app.get("/ProfilesDashboard", ensureLogin, (req,res)=>{
