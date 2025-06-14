@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>MakeReport</title>
+          <link rel="stylesheet" href="/css/styles.css" />
+
+</head>
+
+    {{> header user}}
+    <div class="reportEditor">
+    <h1>Report Editor</h1>
+    <form  class="contactus" id="contactus" method="POST" action="/report/Edit">
+        {{#if report._id}}
+            <!--input type="hidden" name="ID" value="{{report._id}}" /-->
+            <!--input type="date" name="edit" value="1" /-->
+            <h4>Editing report ID: {{report._id}}</h4><br><br>
+        {{else}}
+
+            <label class="fixedlabel">Employee</label>
+            <input type="text" name="empID" value="{{user.username}}"/><br><br>
+            <input type="hidden" name="edit" value="0" />
+            <label class="fixedlabel">ID</label>
+            <input type="datetime-local" name="ID"/><br><br>
+        {{/if}}
+
+        <label class="fixedlabel">X</label>
+        <input type="number" name="X" value="{{report.X}}" /><br><br>
+        
+        <label class="fixedlabel">R</label>
+        <input type="number" name="R" value="{{report.R}}" /><br><br>
+        
+        <label class="fixedlabel">NS</label>
+        <input type="number" name="NS" value="{{report.NS}}" /><br><br>
+        
+        <label class="fixedlabel">C</label>
+        <input type="number" name="C" value="{{report.C}}" /><br><br>
+        
+        <label class="fixedlabel">V</label>
+        <input type="number" name="V" value="{{report.V}}" /><br><br>
+
+        <label class="fixedlabel">Cocobread</label>
+        <input type="number" name="Cocobread" value="{{report.Cocobread}}" /><br><br><br>
+
+        <label class="fixedlabel">Cash</label>
+        <input type="number" min="0.01" step="0.01" max="1000000" name="Cash" value="{{report.Cash}}" /><br><br>
+
+        <label class="fixedlabel">Debit</label>
+        <input type="number" min="0.01" step="0.01" max="1000000" name="Debit" value="{{report.Debit}}" /><br><br>
+
+        <label class="fixedlabel">Tips</label>
+        <input type="number" step="0.01" max="1000000" name="Tips" value="{{report.Tips}}" /><br><br><br>
+
+        <label class="fixedlabel">Drinks</label>
+        <input id="drinkS" type="text" name="Drinks" value="{{report.Drinks}}" /><br><br>
+
+
+        <label class="fixedlabel">Coke</label>
+        <input name="drinkModel" type="checkbox" class="drinkModel" value="Coke">
+
+        &nbsp;&nbsp;<label class="fixedlabel">Diet Coke</label>
+        <input name="drinkModel"type="checkbox" class="drinkModel" value="DietCoke">
+
+        &nbsp;&nbsp;<label class="fixedlabel">Canada Dry</label>
+        <input name="drinkModel"type="checkbox" class="drinkModel" value="CanadaDry">
+
+        &nbsp;&nbsp;<label class="fixedlabel">Nestea</label>
+        <input name="drinkModel"type="checkbox" class="drinkModel" value="Nestea">
+
+        &nbsp;&nbsp;<label class="fixedlabel">A&W</label>
+        <input name="drinkModel"type="checkbox" class="drinkModel" value="A&W"><br><br>
+
+        <label class="fixedlabel">Island_Soda_Banana_Drink</label>
+        <input name="drinkModel"type="checkbox" class="drinkModel" value="BananaDrink">
+
+        &nbsp;&nbsp;<label class="fixedlabel">Island_Soda_Kola_Champagne</label>
+        <input name="drinkModel"type="checkbox" class="drinkModel" value="KolaChampagne">
+
+        &nbsp;&nbsp;<label class="fixedlabel">Island_Soda_Ginger_Beer</label>
+        <input name="drinkModel"type="checkbox" class="drinkModel" value="IslandSodaGingerBeer">
+
+        &nbsp;&nbsp;<label class="fixedlabel">Islans_Soda_Pineapple_Drink</label>
+        <input name="drinkModel"type="checkbox" class="drinkModel" value="PineappleDrink"><br><br>
+
+        <label class="fixedlabel">Tropical_Rythms_Mango</label>
+        <input name="drinkModel"type="checkbox" class="drinkModel" value="TropicalRythmsMango">
+
+        &nbsp;&nbsp;<label class="fixedlabel">Tropical_Rythms_Pineapple_Ginger</label>
+        <input name="drinkModel"type="checkbox" class="drinkModel" value="PineappleGinger">
+
+        &nbsp;&nbsp;<label class="fixedlabel">Coconut_Water_Small</label>
+        <input name="drinkModel"type="checkbox" class="drinkModel" value="CoconutWaterSmall">
+
+        &nbsp;&nbsp;<label class="fixedlabel">Coconut_Water_Big</label>
+        <input name="drinkModel"type="checkbox" class="drinkModel" value="CoconutWaterBig">
+
+        &nbsp;&nbsp;<label class="fixedlabel">Water</label>
+        <input name="drinkModel"type="checkbox" class="drinkModel" value="Water">
+        
+        <br><br><input type="button" onclick="drinksFunction()" value="Confirm Drinks">
+
+        <script>
+            function drinksFunction() {
+                var drinkModel = document.forms[0];
+                var txt = "";
+                var i;
+                for (i = 0; i < drinkModel.length; i++) {
+                    if (drinkModel[i].checked) {
+                    txt = txt + drinkModel[i].value + " +";
+                    }
+                }
+                document.getElementById("drinkS").value = "-Drinks: " + txt;
+            }
+
+            function extrasFunction() {
+                var extraModel = document.forms[0];
+                var txt = "";
+                var i;
+                for (i = 0; i < extraModel.length; i++) {
+                    if (extraModel[i].checked) {
+                    txt = txt + extraModel[i].value + " +";
+                    }
+                }
+                document.getElementById("extraS").value = "-Extras: " + txt;
+            }
+
+        </script>
+
+        <br><br><br><label class="fixedlabel">Extras</label>
+        <input id="extraS" type="text" name="Extras" value="{{report.Extras}}" /><br><br>
+
+        <label class="fixedlabel">1/2_Dozen_Patties_Box</label>
+        <input name="extraModel" type="checkbox" class="extraModel" value="1/2_Dozen_Box">
+
+        &nbsp;&nbsp;<label class="fixedlabel">Dozen_Patties_Box</label>
+        <input name="extraModel" type="checkbox" class="extraModel" value="Dozen_Box">
+
+        &nbsp;&nbsp;<label class="fixedlabel">Plastic_Bag_Small</label>
+        <input name="extraModel" type="checkbox" class="extraModel" value="Plastic Bag Small">
+
+        &nbsp;&nbsp;<label class="fixedlabel">Plastic_Bag_Big</label>
+        <input name="extraModel" type="checkbox" class="extraModel" value="Plastic Bag Big">
+
+        <br><br><label class="fixedlabel">Paper_Towel</label>
+        <input name="extraModel" type="checkbox" class="extraModel" value="Paper Towel">
+
+        &nbsp;&nbsp;<label class="fixedlabel">Napkins</label>
+        <input name="extraModel" type="checkbox" class="extraModel" value="Napkins">
+
+        &nbsp;&nbsp;<label class="fixedlabel">Patties_Paper_Bag_Small</label>
+        <input name="extraModel" type="checkbox" class="extraModel" value="Patties Paper Bag Small">
+
+        &nbsp;&nbsp;<label class="fixedlabel">Patties_Paper_Bag_Big</label>
+        <input name="extraModel" type="checkbox" class="extraModel" value="Patties Paper Bag Big">
+
+        <br><br><label class="fixedlabel">Nitrile_Gloves</label>
+        <input name="extraModel" type="checkbox" class="extraModel" value="Nitrile Gloves">
+
+        &nbsp;&nbsp;<label class="fixedlabel">Plastic_Gloves</label>
+        <input name="extraModel" type="checkbox" class="extraModel" value="Plastic Gloves">
+        
+        <br><br><input type="button" onclick="extrasFunction()" value="Confirm Extras">
+
+                                                
+        &nbsp;&nbsp;<label class="fixedlabel"></label>
+        <br><br><br><button id="loginButton" class="button1" type="submit" name="submit">Submit</button><br><br>
+    </form>
+</div>
+    {{> footer user}}
+</body>
+</html>

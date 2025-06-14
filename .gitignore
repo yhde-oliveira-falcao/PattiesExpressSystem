@@ -1,0 +1,13 @@
+.env
+node_modules
+js/config.js
+toDo.txt
+IMPORTANT_NOTES.txt
+views/reportCLONE.txt
+PriceStructure.txt
+
+IMPORTANT_NOTES.txt
+js
+node_modules
+PriceStructure.txt
+views/reportCLONE.txt
